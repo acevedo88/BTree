@@ -115,12 +115,11 @@ public class GeneBankSearch {
 		
 		file = new File(newFileName); // takes in file name
 	
-		
-		System.out.println("Searching BTree...");
+		System.out.print("Searching BTree...");
 		
 		beginSearch(subSize);
 		
-		System.out.println("Search complete. Query results were stored in " + newFileName);
+		System.out.println("\nSearch complete. Query results were stored in " + newFileName);
 	}
 	
 	private static void beginSearch(int k) throws Exception {
@@ -131,8 +130,25 @@ public class GeneBankSearch {
 		File file = new File(queryFile); 
 		Scanner scanner = new Scanner(file);
 		String token;
+		int wait = 0;
+		
+		if (withCache==1) 
+		{
+			BTreeCache inCache = new BTreeCache(cacheSize); 
+			tree.setCacheUse(inCache);
+		}
 		
 		while (scanner.hasNextLine()) {
+
+			wait++;
+			if (wait%100==0) 
+			{
+				System.out.print(".");
+			}
+			if (wait%2000==0)
+			{
+				System.out.print("\n");
+			}
 			
 			token = scanner.nextLine().toLowerCase();
 			int freq = tree.search(toLong(token));
@@ -150,6 +166,7 @@ public class GeneBankSearch {
 			}
 		}
 		
+		scanner.close();
 		fileWriter.close();
 		
 	}

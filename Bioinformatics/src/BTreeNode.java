@@ -45,6 +45,15 @@ public class BTreeNode {
 		this.numObjects = 0;
 	}
 	
+	public boolean containsObject(TreeObject input) 
+	{
+		if (objects.contains(input)) 
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	public void setParent(BTreeNode n) {
 		
 		this.parent = n;
